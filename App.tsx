@@ -1,33 +1,27 @@
 import "@elastic/eui/dist/eui_theme_dark.css";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  EuiText,
   EuiPageTemplate,
   EuiProvider,
   EuiForm,
   EuiDatePicker,
-  EuiFormRow,
+  EuiFormRow
 } from "@elastic/eui";
-import { StyleSheet } from "react-native";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import moment from "moment";
 
-const Completionist = () => <span>You are good to go!</span>;
+const Complete = () => <span>You are good to go!</span>;
 
 export default function App() {
-  const [startDate, setStartDate] = useState(moment());
-  const [timer, setTimer] = useState(0);
+  const [end_date, set_end_date] = useState(moment());
+  const [timer, set_timer] = useState(0);
 
-  const handleChange = (date: moment.Moment) => {
+  const handle_change = (date: moment.Moment) => {
     const current_date = moment();
     const new_timer = Date.now() + date.diff(current_date);
 
-    console.log(current_date);
-    console.log(date);
-    console.log(new_timer);
-
-    setTimer(new_timer);
-    setStartDate(date);
+    set_timer(new_timer);
+    set_end_date(date);
   };
 
   // Renderer callback with condition
@@ -40,7 +34,7 @@ export default function App() {
   }) => {
     if (completed) {
       // Render a completed state
-      return <Completionist />;
+      return <Complete />;
     } else {
       if (api.isStopped()) api.start();
       // Render a countdown
@@ -60,8 +54,8 @@ export default function App() {
             <EuiFormRow label="Select a date">
               <EuiDatePicker
                 showTimeSelect
-                selected={startDate}
-                onChange={handleChange}
+                selected={end_date}
+                onChange={handle_change}
               />
             </EuiFormRow>
             <EuiFormRow label="Countdown">
@@ -69,7 +63,7 @@ export default function App() {
                 date={new Date().getMilliseconds() + timer}
                 renderer={renderer}
               >
-                <Completionist />
+                <Complete />
               </Countdown>
             </EuiFormRow>
           </EuiForm>
@@ -78,12 +72,3 @@ export default function App() {
     </EuiProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

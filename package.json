@@ -2,6 +2,11 @@
   "name": "countdown",
   "version": "1.0.0",
   "main": "index.js",
+  "preinstall": "npx only-allow yarn",
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.22.19"
+  },
   "scripts": {
     "start": "yarn tsc && expo start",
     "android": "expo start --android",
@@ -13,9 +18,11 @@
     "@elastic/eui": "^75.0.0",
     "@emotion/css": "^11.10.5",
     "@emotion/react": "^11.10.5",
-    "@expo/webpack-config": "^0.17.2",
+    "@expo/webpack-config": "^18.0.1",
     "@types/react-native": "~0.70.6",
-    "expo": "~47.0.12",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-snakecasejs": "^2.2.0",
+    "expo": "^1.0.0",
     "expo-status-bar": "~1.4.2",
     "moment": "^2.29.4",
     "prop-types": "^15.8.1",
@@ -31,6 +38,12 @@
     "@types/jest": "^29.4.0",
     "@types/react": "^18.0.27",
     "@types/react-test-renderer": "^18.0.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "typescript": "^4.9.5"
   },
   "private": true
