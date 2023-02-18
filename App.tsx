@@ -5,16 +5,19 @@ import {
   EuiProvider,
   EuiForm,
   EuiDatePicker,
-  EuiFormRow
+  EuiFormRow,
 } from "@elastic/eui";
-import Countdown, { CountdownRendererFn, CountdownTimeDeltaFormatted } from "react-countdown";
+import Countdown, {
+  CountdownRendererFn,
+  CountdownTimeDeltaFormatted,
+} from "react-countdown";
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Complete = () => <span>You are good to go!</span>;
 
 export default function App() {
-  const [end_date, set_end_date] = useState<moment.Moment>();
+  const [end_date, set_end_date] = useState<moment.Moment>(moment());
   const [timer, set_timer] = useState(0);
 
   const set_date_timer = async (date: moment.Moment) => {
@@ -23,30 +26,32 @@ export default function App() {
 
     set_timer(new_timer);
     set_end_date(date);
-
-    await AsyncStorage.setItem("end-date", JSON.stringify(end_date))
-  }
-
-  const handle_change = (date: moment.Moment) => {
-    set_date_timer(date)
   };
 
   const init_end_date = async () => {
-    const end_date_store = await AsyncStorage.getItem("end-date")
+    const end_date_store = await AsyncStorage.getItem("end-date");
     if (!end_date_store) {
-      console.debug("no end date in storage")
-      set_date_timer(moment())
+      console.debug("no end date in storage");
+      set_date_timer(moment());
       return;
     }
 
-    const old_end_store = moment(JSON.stringify(end_date_store))
-    console.debug("Returned end-date", end_date_store, old_end_store)
-    set_date_timer(old_end_store)
-  }
+    const set_end_date = moment(JSON.parse(end_date_store));
+    console.debug("Returned end-date", end_date_store, set_end_date);
+    set_date_timer(set_end_date);
+  };
 
   useState(() => {
     init_end_date();
-  },[])
+  }, []);
+
+  const store_end_date = async () => {
+    await AsyncStorage.setItem("end-date", JSON.stringify(end_date));
+  };
+
+  useState(() => {
+    store_end_date();
+  }, [end_date]);
 
   // Renderer callback with condition
   const renderer: CountdownRendererFn = ({
@@ -58,12 +63,12 @@ export default function App() {
     formatted,
     api,
   }) => {
-    console.debug(formatted)
+    console.debug(formatted);
     if (completed) {
       // Render a completed state
       return <Complete />;
     } else {
-      if (api.isStopped()) api.start();
+      if (end_date && api.isStopped()) api.start();
       // Render a countdown
       return (
         <span>
@@ -71,6 +76,10 @@ export default function App() {
         </span>
       );
     }
+  };
+
+  const handle_change = (date: moment.Moment) => {
+    set_date_timer(date);
   };
 
   return (
