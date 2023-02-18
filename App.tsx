@@ -1,5 +1,5 @@
 import "@elastic/eui/dist/eui_theme_dark.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   EuiPageTemplate,
   EuiProvider,
@@ -7,31 +7,58 @@ import {
   EuiDatePicker,
   EuiFormRow
 } from "@elastic/eui";
-import Countdown, { CountdownRendererFn } from "react-countdown";
+import Countdown, { CountdownRendererFn, CountdownTimeDeltaFormatted } from "react-countdown";
 import moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Complete = () => <span>You are good to go!</span>;
 
 export default function App() {
-  const [end_date, set_end_date] = useState(moment());
+  const [end_date, set_end_date] = useState<moment.Moment>();
   const [timer, set_timer] = useState(0);
 
-  const handle_change = (date: moment.Moment) => {
+  const set_date_timer = async (date: moment.Moment) => {
     const current_date = moment();
     const new_timer = Date.now() + date.diff(current_date);
 
     set_timer(new_timer);
     set_end_date(date);
+
+    await AsyncStorage.setItem("end-date", JSON.stringify(end_date))
+  }
+
+  const handle_change = (date: moment.Moment) => {
+    set_date_timer(date)
   };
+
+  const init_end_date = async () => {
+    const end_date_store = await AsyncStorage.getItem("end-date")
+    if (!end_date_store) {
+      console.debug("no end date in storage")
+      set_date_timer(moment())
+      return;
+    }
+
+    const old_end_store = moment(JSON.stringify(end_date_store))
+    console.debug("Returned end-date", end_date_store, old_end_store)
+    set_date_timer(old_end_store)
+  }
+
+  useState(() => {
+    init_end_date();
+  },[])
 
   // Renderer callback with condition
   const renderer: CountdownRendererFn = ({
+    days,
     hours,
     minutes,
     seconds,
     completed,
+    formatted,
     api,
   }) => {
+    console.debug(formatted)
     if (completed) {
       // Render a completed state
       return <Complete />;
@@ -40,7 +67,7 @@ export default function App() {
       // Render a countdown
       return (
         <span>
-          {hours}:{minutes}:{seconds}
+          {days}:{hours}:{minutes}:{seconds}
         </span>
       );
     }
