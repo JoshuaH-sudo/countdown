@@ -16,15 +16,6 @@ export default function App() {
   const storage_name = `${item_id}-end-date`;
   const [end_date, set_end_date] = useState<moment.Moment>(moment());
 
-  const handle_change = (date: moment.Moment) => {
-    set_end_date(date);
-    store_end_date(date)
-  };
-
-  const store_end_date = async (date: moment.Moment) => {
-    await AsyncStorage.setItem(storage_name, JSON.stringify(date));
-  };
-
   const init_end_date = async () => {
     const end_date_store = await AsyncStorage.getItem(storage_name);
     if (!end_date_store) {
@@ -42,6 +33,18 @@ export default function App() {
     init_end_date();
   }, []);
 
+  const handle_change = (date: moment.Moment) => {
+    set_end_date(date.clone());
+  };
+
+  useEffect(() => {
+    store_end_date();
+  }, [end_date]);
+
+  const store_end_date = async () => {
+    await AsyncStorage.setItem(storage_name, JSON.stringify(end_date));
+  };
+
   return (
     <EuiProvider colorMode="dark">
       <EuiPageTemplate panelled={true} restrictWidth={true} grow={true}>
@@ -55,7 +58,10 @@ export default function App() {
               />
             </EuiFormRow>
             <EuiFormRow label="Countdown">
-              <Countdown_display end_date={end_date} item_id={item_id} />
+              <Countdown_display
+                end_date={end_date.clone()}
+                item_id={item_id}
+              />
             </EuiFormRow>
           </EuiForm>
         </EuiPageTemplate.Section>
