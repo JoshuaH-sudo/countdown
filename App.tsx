@@ -1,70 +1,79 @@
 import "@elastic/eui/dist/eui_theme_dark.css";
 import React, { useEffect, useState } from "react";
-import {
-  EuiPageTemplate,
-  EuiProvider,
-  EuiForm,
-  EuiDatePicker,
-  EuiFormRow,
-} from "@elastic/eui";
+import { EuiPageTemplate, EuiProvider } from "@elastic/eui";
 import moment from "moment";
 import Countdown_display from "./components/Countdown_display";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Countdown_goal_form from "./components/Countdown_goal_form";
 
+export interface Countdown_goal {
+  name: string;
+  end_date: moment.Moment;
+}
+
+const storage_name = "countdown-goals";
 export default function App() {
-  const item_id = "main";
-  const storage_name = `${item_id}-end-date`;
-  const [end_date, set_end_date] = useState<moment.Moment>(moment());
+  const [countdown_goals, set_countdown_goals] = useState<Countdown_goal[]>([]);
 
-  const init_end_date = async () => {
-    const end_date_store = await AsyncStorage.getItem(storage_name);
-    if (!end_date_store) {
+  const get_countdown_goals = async () => {
+    const countdown_goal_store = await AsyncStorage.getItem(storage_name);
+    if (!countdown_goal_store) {
       console.debug("no end date in storage");
-      set_end_date(moment());
       return;
     }
 
-    const stored_end_date = moment(JSON.parse(end_date_store));
-    console.debug("Returned end-date", end_date_store, stored_end_date);
-    set_end_date(stored_end_date);
+    const retrieved_countdown_goals: Countdown_goal[] =
+      JSON.parse(countdown_goal_store);
+
+    const parsed_goals = retrieved_countdown_goals.map((goal) => {
+      return {
+        name: goal.name,
+        end_date: moment(goal.end_date),
+      };
+    });
+
+    console.debug(
+      "Returned end-date",
+      retrieved_countdown_goals,
+      countdown_goal_store
+    );
+    set_countdown_goals(parsed_goals);
   };
 
   useEffect(() => {
-    init_end_date();
+    get_countdown_goals();
   }, []);
 
-  const handle_change = (date: moment.Moment) => {
-    set_end_date(date.clone());
+  const save_countdown_goals = async () => {
+    await AsyncStorage.setItem(storage_name, JSON.stringify(countdown_goals));
   };
 
   useEffect(() => {
-    store_end_date();
-  }, [end_date]);
+    save_countdown_goals();
+  }, [countdown_goals]);
 
-  const store_end_date = async () => {
-    await AsyncStorage.setItem(storage_name, JSON.stringify(end_date));
+  const countdown_list = countdown_goals.map((countdown_goal) => (
+    <EuiPageTemplate.Section grow={false} color="subdued">
+      <Countdown_display
+        goal_name={countdown_goal.name}
+        end_date={countdown_goal.end_date}
+      />
+    </EuiPageTemplate.Section>
+  ));
+
+  const add_countdown_goal = (new_goal: Countdown_goal) => {
+    const updated_goals = [...countdown_goals];
+    updated_goals.push(new_goal);
+    set_countdown_goals(updated_goals);
   };
 
   return (
     <EuiProvider colorMode="dark">
       <EuiPageTemplate panelled={true} restrictWidth={true} grow={true}>
         <EuiPageTemplate.Section grow={false} color="subdued">
-          <EuiForm>
-            <EuiFormRow label="Select a date">
-              <EuiDatePicker
-                showTimeSelect
-                selected={end_date}
-                onChange={handle_change}
-              />
-            </EuiFormRow>
-            <EuiFormRow label="Countdown">
-              <Countdown_display
-                end_date={end_date.clone()}
-                item_id={item_id}
-              />
-            </EuiFormRow>
-          </EuiForm>
+          <Countdown_goal_form add_countdown_goal={add_countdown_goal} />
         </EuiPageTemplate.Section>
+        {countdown_list}
       </EuiPageTemplate>
     </EuiProvider>
   );

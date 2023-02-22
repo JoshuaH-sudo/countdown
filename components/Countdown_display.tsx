@@ -1,15 +1,15 @@
 import moment from "moment";
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 
 interface Countdown_props {
+  goal_name:string;
   end_date: moment.Moment;
-  item_id: string;
 }
 
 const Complete = () => <span>You are good to go!</span>;
 
-const Countdown_display: FC<Countdown_props> = ({ end_date, item_id }) => {
+const Countdown_display: FC<Countdown_props> = ({ goal_name, end_date }) => {
   const [timer, set_timer] = useState(0);
 
   const set_date_timer = () => {
@@ -40,7 +40,7 @@ const Countdown_display: FC<Countdown_props> = ({ end_date, item_id }) => {
       // Render a countdown
       return (
         <span>
-          Days: {days}, Hours: {hours}, Minutes: {minutes}, Seconds: {seconds}
+         {goal_name} Days: {days}, Hours: {hours}, Minutes: {minutes}, Seconds: {seconds}
         </span>
       );
     }
