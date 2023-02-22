@@ -1,0 +1,13 @@
+{
+  "extends": ["prettier", "extends"],
+  "plugins": ["snakecasejs", "react", "prettier"],
+  "settings": {
+    "snakecasejs/filter": ["ClassDeclaration", "NewExpression"],
+    "snakecasejs/whitelist": ["externalPath", "setNumber"],
+    "camelcase": ["error", { "properties": "never" }]
+  },
+  "rules": {
+    "prettier/prettier": ["error"],
+    "snakecasejs/snakecasejs": "error"
+  }
+}
