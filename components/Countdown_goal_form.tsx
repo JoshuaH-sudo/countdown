@@ -7,7 +7,7 @@ import {
 } from "@elastic/eui";
 import moment from "moment";
 import React, { useState } from "react";
-import { Countdown_goal } from "../App";
+import { Countdown_goal } from "./screens/Main_screen";
 
 export interface Countdown_goal_form_props {
   add_countdown_goal: (goal: Countdown_goal) => void;
