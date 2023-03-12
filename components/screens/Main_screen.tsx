@@ -1,7 +1,7 @@
 import { EuiPageTemplate } from "@elastic/eui";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Countdown_display from "../Countdown_display";
 import Countdown_goal_form from "../Countdown_goal_form";
 

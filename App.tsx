@@ -1,3 +1,4 @@
+import React from "react";
 import "@elastic/eui/dist/eui_theme_dark.css";
 import { EuiProvider } from '@elastic/eui';
 import { Main_screen } from './components/screens/Main_screen';

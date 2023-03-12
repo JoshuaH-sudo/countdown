@@ -4,8 +4,7 @@
   "main": "index.js",
   "preinstall": "npx only-allow yarn",
   "engines": {
-    "npm": "please-use-yarn",
-    "yarn": ">= 1.22.19"
+    "npm": "please-use-yarn"
   },
   "scripts": {
     "start": "yarn tsc && expo start",
