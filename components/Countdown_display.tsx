@@ -3,11 +3,9 @@ import React, { FC, useEffect, useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 
 interface Countdown_props {
-  goal_name:string;
+  goal_name: string;
   end_date: moment.Moment;
 }
-
-const Complete = () => <span>You are good to go!</span>;
 
 const Countdown_display: FC<Countdown_props> = ({ goal_name, end_date }) => {
   const [timer, set_timer] = useState(0);
@@ -34,22 +32,21 @@ const Countdown_display: FC<Countdown_props> = ({ goal_name, end_date }) => {
   }) => {
     if (completed) {
       // Render a completed state
-      return <Complete />;
+      return <span>{goal_name} Completed</span>;
     } else {
       if (api.isStopped()) api.start();
       // Render a countdown
       return (
         <span>
-         {goal_name} Days: {days}, Hours: {hours}, Minutes: {minutes}, Seconds: {seconds}
+          {goal_name} Days: {days}, Hours: {hours}, Minutes: {minutes}, Seconds:{" "}
+          {seconds}
         </span>
       );
     }
   };
 
   return (
-    <Countdown date={moment().milliseconds() + timer} renderer={renderer}>
-      <Complete />
-    </Countdown>
+    <Countdown date={moment().milliseconds() + timer} renderer={renderer}/>
   );
 };
 

@@ -1,16 +1,12 @@
 import React from "react";
 import "@elastic/eui/dist/eui_theme_dark.css";
 import { EuiProvider } from "@elastic/eui";
-import { Main_screen } from "./components/screens/Main_screen";
-
-//React native stack navigator
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import Countdown_goal_form from "./components/screens/Countdown_goal_form";
-import { RouteProp, NavigationProp } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 
 export const storage_name = "countdown-goals";
 
@@ -31,8 +27,8 @@ export default function App() {
     <EuiProvider colorMode="dark">
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Main_screen">
-          <Stack.Screen name="Main_screen" component={Main_screen} />
-          <Stack.Screen name="Goal_form" component={Countdown_goal_form} />
+          <Stack.Screen name="Main_screen" getComponent={() => require("./components/screens/Main_screen").default} />
+          <Stack.Screen name="Goal_form" getComponent={() => require("./components/screens/Countdown_goal_form").default} />
         </Stack.Navigator>
       </NavigationContainer>
     </EuiProvider>

@@ -1,21 +1,23 @@
 import { EuiButton, EuiPageTemplate } from "@elastic/eui";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
-import React, { useState, useEffect, ReactNode } from "react";
-import { screen_props, storage_name } from "../../App";
+import React, { useState, useEffect, ReactNode, FC } from "react";
+import { root_stack_param_list, storage_name } from "../../App";
 import Countdown_display from "../Countdown_display";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export interface Countdown_goal {
   name: string;
   end_date: moment.Moment;
 }
 
-interface Main_screen_props extends screen_props<"Main_screen"> {}
+interface Main_screen_props extends NativeStackScreenProps<root_stack_param_list, 'Main_screen'> {}
 
-export function Main_screen({ navigation }: Main_screen_props) {
+const Main_screen: FC<Main_screen_props>  = ({ navigation }) => {
   const [countdown_goals, set_countdown_goals] = useState<Countdown_goal[]>([]);
 
   const get_countdown_goals = async () => {
+    console.debug("Getting goals")
     const countdown_goal_store = await AsyncStorage.getItem(storage_name);
     if (!countdown_goal_store) {
       console.debug("no end date in storage");
@@ -42,6 +44,12 @@ export function Main_screen({ navigation }: Main_screen_props) {
 
   useEffect(() => {
     get_countdown_goals();
+    const unsubscribe = navigation.addListener('focus', () => {
+      get_countdown_goals();
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
   }, []);
 
   const countdown_list = countdown_goals.map((countdown_goal) => (
@@ -79,3 +87,5 @@ export function Main_screen({ navigation }: Main_screen_props) {
     </EuiPageTemplate>
   );
 }
+
+export default Main_screen

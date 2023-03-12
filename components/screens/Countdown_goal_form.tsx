@@ -7,14 +7,15 @@ import {
   EuiPageTemplate,
 } from "@elastic/eui";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { screen_props, storage_name } from "../../App";
+import React, { FC, useEffect, useState } from "react";
+import { root_stack_param_list, storage_name } from "../../App";
 import { Countdown_goal } from "./Main_screen";
 
-export interface Countdown_goal_form_props extends screen_props<"Goal_form"> {}
+export type Countdown_goal_form_props = NativeStackScreenProps<root_stack_param_list, "Goal_form">
 
-function Countdown_goal_form({ navigation }: Countdown_goal_form_props) {
+const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
   const [end_date, set_end_date] = useState<moment.Moment>(moment());
   const [name, set_name] = useState("");
 
