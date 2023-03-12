@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import Countdown_display from "../Countdown_display";
-import Countdown_goal_form from "../Countdown_goal_form";
 
 export interface Countdown_goal {
   name: string;
@@ -69,10 +68,6 @@ export function Main_screen() {
 
   return (
     <EuiPageTemplate panelled={true} restrictWidth={true} grow={true}>
-      <EuiPageTemplate.Section grow={false} color="subdued">
-        <Countdown_goal_form add_countdown_goal={add_countdown_goal} />
-      </EuiPageTemplate.Section>
-
       <EuiPageTemplate.Section grow={false} color="subdued">
         {countdown_list}
       </EuiPageTemplate.Section>

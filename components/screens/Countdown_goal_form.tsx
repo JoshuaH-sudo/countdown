@@ -7,14 +7,13 @@ import {
 } from "@elastic/eui";
 import moment from "moment";
 import React, { useState } from "react";
-import { Countdown_goal } from "./screens/Main_screen";
 
 export interface Countdown_goal_form_props {
-  add_countdown_goal: (goal: Countdown_goal) => void;
+  //add_countdown_goal: (goal: Countdown_goal) => void;
 }
 
 function Countdown_goal_form({
-  add_countdown_goal,
+  //add_countdown_goal,
 }: Countdown_goal_form_props) {
   const [end_date, set_end_date] = useState<moment.Moment>(moment());
   const [name, set_name] = useState("");
@@ -28,10 +27,10 @@ function Countdown_goal_form({
   };
 
   const on_submit_handler = () => {
-    add_countdown_goal({
-      name,
-      end_date,
-    });
+    // add_countdown_goal({
+    //   name,
+    //   end_date,
+    // });
   };
 
   return (
