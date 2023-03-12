@@ -1,7 +1,10 @@
-import { EuiPageTemplate } from "@elastic/eui";
+import { EuiButton, EuiPageTemplate } from "@elastic/eui";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import moment from "moment";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
+import { RootStackParamList } from "../../App";
 import Countdown_display from "../Countdown_display";
 
 export interface Countdown_goal {
@@ -11,7 +14,20 @@ export interface Countdown_goal {
 
 const storage_name = "countdown-goals";
 
-export function Main_screen() {
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Main_screen'>;
+
+type ProfileScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Main_screen'
+>;
+
+export interface Navigation_props {
+  route: ProfileScreenRouteProp;
+  navigation: ProfileScreenNavigationProp;
+};
+
+interface Main_screen_props extends Navigation_props {}
+export function Main_screen({ navigation }: Main_screen_props) {
   const [countdown_goals, set_countdown_goals] = useState<Countdown_goal[]>([]);
 
   const get_countdown_goals = async () => {
@@ -66,10 +82,27 @@ export function Main_screen() {
     set_countdown_goals(updated_goals);
   };
 
+  const new_countdown_goal_handler = () => {
+
+  }
+  const no_coundown_goals = (
+    <div>
+      <h1>No countdown goals</h1>
+      <EuiButton onClick={() => navigation.navigate("Goal_form")} >Make New Ones</EuiButton>
+    </div>
+  )
+
+  let Main_screen_display: ReactNode;
+  if (countdown_list.length === 0) {
+    Main_screen_display = no_coundown_goals;
+  } else {
+    Main_screen_display = countdown_list;
+  }
+
   return (
     <EuiPageTemplate panelled={true} restrictWidth={true} grow={true}>
       <EuiPageTemplate.Section grow={false} color="subdued">
-        {countdown_list}
+        {Main_screen_display}
       </EuiPageTemplate.Section>
     </EuiPageTemplate>
   );
