@@ -1,14 +1,23 @@
 import React from "react";
 import "@elastic/eui/dist/eui_theme_dark.css";
-import { Main_screen } from "./components/screens/Main_screen";
-
-//React native stack navigator
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Countdown_goal_form from "./components/screens/Countdown_goal_form";
-import { EuiProvider } from "@elastic/eui";
-import store from "./components/store/store";
-import { Provider } from "react-redux";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from "@react-navigation/native-stack";
+import { RouteProp } from "@react-navigation/native";
+
+export const storage_name = "countdown-goals";
+
+export type root_stack_param_list = {
+  Main_screen: undefined;
+  Goal_form: undefined;
+};
+
+export type screen_props<T extends keyof root_stack_param_list> = {
+  route: RouteProp<root_stack_param_list, T>;
+  navigation: NativeStackNavigationProp<root_stack_param_list, T>;
+};
 
 const Stack = createNativeStackNavigator();
 
@@ -16,10 +25,17 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main_screen">
-        <Stack.Screen name="Main_screen" component={Main_screen} />
         <Stack.Screen
-          name="Countdown_Goal_Form"
-          component={Countdown_goal_form}
+          name="Main_screen"
+          getComponent={() =>
+            require("./components/screens/Main_screen").default
+          }
+        />
+        <Stack.Screen
+          name="Goal_form"
+          getComponent={() =>
+            require("./components/screens/Countdown_goal_form").default
+          }
         />
       </Stack.Navigator>
     </NavigationContainer>
