@@ -11,7 +11,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment from "moment";
 import React, { FC, useEffect, useState } from "react";
 import { root_stack_param_list, storage_name } from "../../App";
-import { Countdown_goal } from "./Main_screen";
+import { Countdown_goal } from "../common";
 
 export type Countdown_goal_form_props = NativeStackScreenProps<root_stack_param_list, "Goal_form">
 
