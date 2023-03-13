@@ -7,7 +7,8 @@ const use_database_store = () => {
     const dispatch = useAppDispatch();
 
     const add_goal = (new_goal: Countdown_goal) => {
-        dispatch(add_countdown_goal(new_goal))
+        const serialized_goal = { ...new_goal, end_date: new_goal.end_date.toString()}
+        dispatch(add_countdown_goal(serialized_goal))
     }
 
     return { 

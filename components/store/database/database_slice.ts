@@ -19,17 +19,12 @@ export const database_slice = createSlice({
   name: "counter",
   initialState: initial_state,
   reducers: {
-    add_countdown_goal: (state, action: PayloadAction<Countdown_goal>) => {
+    add_countdown_goal: (state, action: PayloadAction<Serialized_countdown_goal>) => {
       const new_goal = action.payload
-      const serialized_goal: Serialized_countdown_goal = { ...new_goal, end_date: new_goal.end_date.toString() }
-      const updated_goals = [...state.countdown_goals]
-
-      updated_goals.push(serialized_goal);
-      state.countdown_goals = updated_goals;
+      const updated_goals = [...state.countdown_goals, new_goal]
       
       //TODO Will need to save more than the countdown goals
       save_database(updated_goals)
-      return state
     }
   },
   extraReducers(builder) {
