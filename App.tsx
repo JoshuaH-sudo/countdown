@@ -6,6 +6,9 @@ import { Main_screen } from "./components/screens/Main_screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Countdown_goal_form from "./components/screens/Countdown_goal_form";
+import { EuiProvider } from "@elastic/eui";
+import store from "./components/store/store";
+import { Provider } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 
