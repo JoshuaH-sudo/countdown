@@ -24,9 +24,11 @@ export const get_countdown_goals = async (): Promise<
   return parsed_goals;
 };
 
-// export const save_countdown_goals = async (countdown_goals: Countdown_goal) => {
-//   await AsyncStorage.setItem(storage_name, JSON.stringify(countdown_goals));
-// };
+export const save_database_handler = async (countdown_goals: Serialized_countdown_goal[]) => {
+  await AsyncStorage.setItem(storage_name, JSON.stringify(countdown_goals));
+};
+
+export const save_database = createAsyncThunk("database/save", save_database_handler)
 
 export const set_database = createAsyncThunk(
   "database/set_database",

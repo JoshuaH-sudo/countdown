@@ -12,10 +12,12 @@ import moment from "moment";
 import React, { FC, useEffect, useState } from "react";
 import { root_stack_param_list, storage_name } from "../../App";
 import { Countdown_goal } from "../common";
+import use_database_store from "../store/database/use_database_store";
 
 export type Countdown_goal_form_props = NativeStackScreenProps<root_stack_param_list, "Goal_form">
 
 const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
+  const { add_goal } = use_database_store();
   const [end_date, set_end_date] = useState<moment.Moment>(moment());
   const [name, set_name] = useState("");
 
@@ -27,53 +29,12 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
     set_name(event.target.value);
   };
 
-  const [countdown_goals, set_countdown_goals] = useState<Countdown_goal[]>([]);
-
-  const get_countdown_goals = async () => {
-    const countdown_goal_store = await AsyncStorage.getItem(storage_name);
-    if (!countdown_goal_store) {
-      console.debug("no end date in storage");
-      return;
-    }
-
-    const retrieved_countdown_goals: Countdown_goal[] =
-      JSON.parse(countdown_goal_store);
-
-    const parsed_goals = retrieved_countdown_goals.map((goal) => {
-      return {
-        name: goal.name,
-        end_date: moment(goal.end_date),
-      };
-    });
-
-    console.debug(
-      "Returned end-date",
-      retrieved_countdown_goals,
-      countdown_goal_store
-    );
-    set_countdown_goals(parsed_goals);
-  };
-
-  useEffect(() => {
-    get_countdown_goals();
-  }, []);
-
-  const save_countdown_goals = async (goals: Countdown_goal[]) => {
-    await AsyncStorage.setItem(storage_name, JSON.stringify(goals));
-    navigation.navigate("Main_screen");
-  };
-
-  const add_countdown_goal = (new_goal: Countdown_goal) => {
-    const updated_goals = [...countdown_goals];
-    updated_goals.push(new_goal);
-    save_countdown_goals(updated_goals);
-  };
-
   const on_submit_handler = () => {
-    add_countdown_goal({
+    add_goal({
       name,
       end_date,
     });
+    navigation.navigate("Main_screen")
   };
 
   return (
