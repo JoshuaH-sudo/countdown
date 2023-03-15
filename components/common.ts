@@ -1,11 +1,20 @@
 import moment from "moment";
 
-export interface Countdown_goal {
-    name: string;
-    end_date: moment.Moment;
+export interface Base_countdown_goal {
+  id: string;
+  name: string;
 }
 
-export interface Serialized_countdown_goal {
-    name: string
-    end_date: string;
-  }
+//For displaying and use
+export interface Countdown_goal extends Base_countdown_goal {
+  end_date: moment.Moment;
+}
+
+export interface New_countdown_goal extends Omit<Countdown_goal, "id">{
+  name: string;
+}
+
+//For storing in redux and database
+export interface Serialized_countdown_goal extends Base_countdown_goal {
+  end_date: string;
+}
