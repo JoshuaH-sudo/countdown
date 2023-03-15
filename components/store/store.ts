@@ -1,6 +1,6 @@
 import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import { set_database } from "./database/database_actions";
+import { set_store_countdown_goals } from "./database/database_actions";
 import database from "./database/database_slice";
 
 const store = configureStore(
@@ -11,7 +11,7 @@ const store = configureStore(
   },
 );
 
-store.dispatch(set_database())
+store.dispatch(set_store_countdown_goals())
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type Root_state = ReturnType<typeof store.getState>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Serialized_countdown_goal } from "../../common";
-import { add_countdown_goal, set_database } from "./database_actions";
+import { add_countdown_goal, set_store_countdown_goals } from "./database_actions";
 
 export const storage_name = "countdown-goals";
 
@@ -30,15 +30,15 @@ export const database_slice = createSlice({
     builder.addCase(add_countdown_goal.rejected, (state, action) => {
       console.error("add countdown goal failed", action.error.message);
     }),
-    builder.addCase(set_database.fulfilled, (state, action) => {
-      console.debug("set database completed", state, action);
+    builder.addCase(set_store_countdown_goals.fulfilled, (state, action) => {
+      console.debug("set store goals completed", state, action);
       if (action.payload) {
         state.countdown_goals = action.payload;
       }
       return state;
     }),
-    builder.addCase(set_database.rejected, (state, action) => {
-      console.debug("set database failed", state, action);
+    builder.addCase(set_store_countdown_goals.rejected, (state, action) => {
+      console.debug("set store goals failed", state, action);
     });
   },
 });
