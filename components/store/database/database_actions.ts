@@ -34,7 +34,8 @@ export const add_countdown_goal = createAsyncThunk(
     const countdown_goal: Serialized_countdown_goal = {
       id: v4(),
       ...new_goal,
-      end_date: new_goal.end_date.toString()
+      end_date: new_goal.end_date.toString(),
+      start_date: new_goal.start_date.toString()
     }
 
     const updated_goals = [

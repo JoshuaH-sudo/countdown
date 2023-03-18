@@ -33,6 +33,7 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
     add_goal({
       name,
       end_date,
+      start_date: moment()
     });
     navigation.navigate("Main_screen")
   };
