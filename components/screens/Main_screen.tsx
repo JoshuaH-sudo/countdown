@@ -20,18 +20,9 @@ const Main_screen: FC<Main_screen_props> = ({ navigation }) => {
 
   const countdown_list = countdown_goals.map((countdown_goal) => (
     <EuiPanel>
-      <Countdown_display
-        goal_name={countdown_goal.name}
-        end_date={moment(countdown_goal.end_date)}
-      />
+      <Countdown_display goal={countdown_goal} />
     </EuiPanel>
   ));
-
-  // const no_countdown_goals: EuiPinnableListGroupItemProps = {
-  //   label: "No countdown goals",
-  // };
-  // const display_items =
-  //   countdown_list.length !== 0 ? countdown_list : [no_countdown_goals];
 
   countdown_list.push(
     <EuiPanel>

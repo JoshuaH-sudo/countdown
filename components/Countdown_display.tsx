@@ -1,23 +1,22 @@
 import moment from "moment";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
-import { map_number, SVG_circle } from "./utils/svg";
-import { EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import { Countdown_goal } from "./common";
+import { EuiFlexGroup, EuiFlexItem, EuiText } from "@elastic/eui";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { Serialized_countdown_goal } from "./common";
 
 interface Countdown_props {
-  goal: Countdown_goal;
+  goal: Serialized_countdown_goal;
 }
 
 const Countdown_display: FC<Countdown_props> = ({ goal }) => {
   const [timer, set_timer] = useState(0);
-  const { name, start_date, end_date} = goal;
+  const { name, start_date, end_date } = goal;
 
   const set_date_timer = () => {
     const current_date = moment();
-    const new_timer = Date.now() + end_date.diff(current_date);
+    const new_timer = Date.now() + moment(end_date).diff(current_date);
 
     set_timer(new_timer);
   };
@@ -30,15 +29,18 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
     time_unit: "days" | "hours" | "minutes" | "seconds";
     amount: number;
   }
+
   const Countdown_unit_ring: FC<Countdown_unit_ring_props> = ({
     time_unit,
     amount,
   }) => {
+    const current_date = moment();
     // Mapping the date values to radius values
     let max_amount: number;
     switch (time_unit) {
       case "days":
-        max_amount = 365;
+        max_amount = moment(end_date).diff(current_date, "days");
+        console.log(`max days: ${max_amount}`)
         break;
 
       case "hours":
@@ -53,7 +55,6 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
         max_amount = 60;
         break;
     }
-    let radius = map_number(amount, max_amount, 0, 0, 360);
 
     return (
       <EuiFlexGroup
@@ -65,13 +66,15 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
         }}
       >
         <EuiFlexItem grow={false}>
-          <SVG_circle radius={radius} />
-        </EuiFlexItem>
-        <EuiFlexItem style={{ alignSelf: "center" }} grow={false}>
-          {amount}
-        </EuiFlexItem>
-        <EuiFlexItem style={{ alignSelf: "center" }} grow={false}>
-          {time_unit}
+          <CircularProgressbarWithChildren
+            minValue={0}
+            maxValue={max_amount}
+            value={amount}
+            strokeWidth={10}
+          >
+            <EuiText>{amount}</EuiText>
+            <EuiText>{time_unit}</EuiText>
+          </CircularProgressbarWithChildren>
         </EuiFlexItem>
       </EuiFlexGroup>
     );
@@ -91,11 +94,11 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
       return <span>{name} Completed</span>;
     } else {
       if (api.isStopped()) api.start();
-      // Render a countdown
 
+      // Render the countdown
       return (
         <EuiFlexGroup alignItems="center" justifyContent="center" wrap>
-          {days && (
+          {days !== 0 && (
             <EuiFlexItem grow={false}>
               <Countdown_unit_ring time_unit="days" amount={days} />
             </EuiFlexItem>
