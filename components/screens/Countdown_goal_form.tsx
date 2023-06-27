@@ -6,15 +6,16 @@ import {
   EuiFieldText,
   EuiPageTemplate,
 } from "@elastic/eui";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment from "moment";
-import React, { FC, useEffect, useState } from "react";
-import { root_stack_param_list, storage_name } from "../../App";
-import { Countdown_goal } from "../common";
+import React, { FC, useState } from "react";
+import { root_stack_param_list } from "../../App";
 import use_database_store from "../store/database/use_database_store";
 
-export type Countdown_goal_form_props = NativeStackScreenProps<root_stack_param_list, "Goal_form">
+export type Countdown_goal_form_props = NativeStackScreenProps<
+  root_stack_param_list,
+  "Goal_form"
+>;
 
 const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
   const { add_goal } = use_database_store();
@@ -33,9 +34,9 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
     add_goal({
       name,
       end_date,
-      start_date: moment()
+      start_date: moment(),
     });
-    navigation.navigate("Main_screen")
+    navigation.navigate("Main_screen");
   };
 
   return (
@@ -61,6 +62,6 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
       </EuiPageTemplate.Section>
     </EuiPageTemplate>
   );
-}
+};
 
 export default Countdown_goal_form;
