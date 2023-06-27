@@ -5,6 +5,7 @@ import { EuiFlexGroup, EuiFlexItem, EuiText } from "@elastic/eui";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Serialized_countdown_goal } from "./common";
+import React from "react";
 
 interface Countdown_props {
   goal: Serialized_countdown_goal;
@@ -32,15 +33,19 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
 
   const Countdown_unit_ring: FC<Countdown_unit_ring_props> = ({
     time_unit,
-    amount,
+    amount = 0,
   }) => {
     const current_date = moment();
     // Mapping the date values to radius values
     let max_amount: number;
     switch (time_unit) {
       case "days":
-        max_amount = moment(end_date).diff(current_date, "days");
-        console.log(`max days: ${max_amount}`)
+        /*
+         * This is the max time unit which all other units divide from.
+         * To get the percentage different we need to subtract from when the timer was created.
+         * If we use the current date the percentage difference will always equal to 0.
+         */
+        max_amount = moment(end_date).diff(moment(start_date), "days");
         break;
 
       case "hours":
@@ -98,26 +103,26 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
       // Render the countdown
       return (
         <EuiFlexGroup alignItems="center" justifyContent="center" wrap>
-          {days !== 0 && (
+          {
             <EuiFlexItem grow={false}>
               <Countdown_unit_ring time_unit="days" amount={days} />
             </EuiFlexItem>
-          )}
-          {hours && (
+          }
+          {
             <EuiFlexItem grow={false}>
               <Countdown_unit_ring time_unit="hours" amount={hours} />
             </EuiFlexItem>
-          )}
-          {minutes && (
+          }
+          {
             <EuiFlexItem grow={false}>
               <Countdown_unit_ring time_unit="minutes" amount={minutes} />
             </EuiFlexItem>
-          )}
-          {seconds && (
+          }
+          {
             <EuiFlexItem grow={false}>
               <Countdown_unit_ring time_unit="seconds" amount={seconds} />
             </EuiFlexItem>
-          )}
+          }
         </EuiFlexGroup>
       );
     }
