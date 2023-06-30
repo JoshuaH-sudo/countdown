@@ -24,11 +24,16 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Main_screen">
+      <Stack.Navigator
+        initialRouteName="Main_screen"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         <Stack.Screen
           name="Main_screen"
           getComponent={() =>
-            require("./components/screens/Main_screen").default
+            require("./components/screens/main/Main_screen").default
           }
         />
         <Stack.Screen
