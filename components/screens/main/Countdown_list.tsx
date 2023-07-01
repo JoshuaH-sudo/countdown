@@ -15,25 +15,24 @@ import {
 import Countdown_display from "./Countdown_display";
 
 const Countdown_list: FC = () => {
-  const { database } = use_database_store();
+  const { database, set_goals } = use_database_store();
   const { countdown_goals } = database;
-  const [list, set_list] = useState(countdown_goals);
-
-  useEffect(() => {
-    set_list(countdown_goals)
-  }, [countdown_goals])
 
   const onDragEnd: (
     result: DropResult,
     provided: ResponderProvided
   ) => void = ({ source, destination }) => {
     if (source && destination) {
-      const items = euiDragDropReorder(list, source.index, destination.index);
-      set_list(items);
+      const items = euiDragDropReorder(
+        countdown_goals,
+        source.index,
+        destination.index
+      );
+      set_goals(items);
     }
   };
 
-  const drag_items = list.map((countdown_goal, idx) => {
+  const drag_items = countdown_goals.map((countdown_goal, idx) => {
     const { id } = countdown_goal;
     return (
       <EuiDraggable

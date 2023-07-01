@@ -30,6 +30,7 @@ export const database_slice = createSlice({
     builder.addCase(add_countdown_goal.rejected, (state, action) => {
       console.error("add countdown goal failed", action.error.message);
     }),
+
     builder.addCase(set_store_countdown_goals.fulfilled, (state, action) => {
       console.debug("set store goals completed", state, action);
       if (action.payload) {
