@@ -2,6 +2,8 @@ import React, { FC, useEffect, useState } from "react";
 import use_database_store from "../../store/database/use_database_store";
 import {
   DropResult,
+  EuiButton,
+  EuiButtonIcon,
   EuiDragDropContext,
   EuiDraggable,
   EuiDroppable,
@@ -15,7 +17,7 @@ import {
 import Countdown_display from "./Countdown_display";
 
 const Countdown_list: FC = () => {
-  const { database, set_goals } = use_database_store();
+  const { database, set_goals, remove_goal } = use_database_store();
   const { countdown_goals } = database;
 
   const onDragEnd: (
@@ -32,21 +34,25 @@ const Countdown_list: FC = () => {
     }
   };
 
-  const drag_items = countdown_goals.map((countdown_goal, idx) => {
+  const delete_goal = (id: string) => {
+    remove_goal(id);
+  };
+
+  const drag_items = countdown_goals.map((countdown_goal, index) => {
     const { id } = countdown_goal;
     return (
       <EuiDraggable
         spacing="m"
         key={id}
-        index={idx}
+        index={index}
         draggableId={id}
         customDragHandle={true}
         hasInteractiveChildren={true}
       >
         {(provided) => (
           <EuiPanel>
-            <EuiFlexGroup alignItems="center">
-              <EuiFlexItem grow={false}>
+            <EuiFlexGroup responsive={false}>
+              {/* <EuiFlexItem grow={false} style={{ alignSelf: "center" }}>
                 <EuiPanel
                   color="transparent"
                   paddingSize="s"
@@ -55,7 +61,7 @@ const Countdown_list: FC = () => {
                 >
                   <EuiIcon type="grab" />
                 </EuiPanel>
-              </EuiFlexItem>
+              </EuiFlexItem> */}
 
               <EuiFlexItem>
                 <Countdown_display goal={countdown_goal} />

@@ -2,7 +2,13 @@ import React from "react";
 import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
-import { EuiFlexGroup, EuiFlexItem, EuiText, EuiTitle } from "@elastic/eui";
+import {
+  EuiButtonIcon,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiText,
+  EuiTitle,
+} from "@elastic/eui";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Serialized_countdown_goal } from "../../common";
@@ -64,9 +70,8 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
     return (
       <div
         style={{
-          position: "relative",
-          width: "100px",
-          height: "100px",
+          width: "4em",
+          height: "4em",
         }}
       >
         <CircularProgressbarWithChildren
@@ -93,39 +98,64 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
     completed,
     api,
   }) => {
-    if (completed) {
-      // Render a completed state
-      return (
-        <EuiFlexGroup alignItems="center" justifyContent="flexStart" wrap>
-          <EuiFlexItem grow={true}>{`${name} Completed`}</EuiFlexItem>
-        </EuiFlexGroup>
-      );
-    } else {
-      if (api.isStopped()) api.start();
+    const display_name = completed ? `${name} Completed` : name;
+    if (api.isStopped()) api.start();
 
-      // Render the countdown
-      return (
-        <EuiFlexGroup alignItems="center" justifyContent="flexStart" wrap>
-          <EuiFlexItem grow={false}>
-            <EuiTitle size="s">
-              <EuiText>{name}</EuiText>
-            </EuiTitle>
-          </EuiFlexItem>
-          <EuiFlexItem grow={false}>
-            <Countdown_unit_ring unit="days" amount={days} />
-          </EuiFlexItem>
-          <EuiFlexItem grow={false}>
-            <Countdown_unit_ring unit="hours" amount={hours} />
-          </EuiFlexItem>
-          <EuiFlexItem grow={false}>
-            <Countdown_unit_ring unit="minutes" amount={minutes} />
-          </EuiFlexItem>
-          <EuiFlexItem grow={false}>
-            <Countdown_unit_ring unit="seconds" amount={seconds} />
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      );
-    }
+    // Render the countdown
+    return (
+      <EuiFlexGroup
+        alignItems="center"
+        justifyContent="flexStart"
+        direction="column"
+      >
+        <EuiFlexItem grow={false}>
+          <EuiFlexGroup justifyContent="center" alignItems="center" responsive={false}>
+            <EuiFlexItem>
+              <EuiTitle size="s">
+                <EuiText>{display_name}</EuiText>
+              </EuiTitle>
+            </EuiFlexItem>
+
+            <EuiFlexItem grow={false}>
+              <EuiFlexGroup
+                alignItems="center"
+                direction="column"
+                justifyContent="flexStart"
+              >
+                <EuiFlexItem grow={false}>
+                  <EuiButtonIcon
+                    iconType="cross"
+                    display="fill"
+                    // onClick={() => delete_goal(id)}
+                  />
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </EuiFlexItem>
+
+        <EuiFlexItem grow={true}>
+          <EuiFlexGroup
+            alignItems="center"
+            justifyContent="flexStart"
+            responsive={false}
+          >
+            <EuiFlexItem grow={false}>
+              <Countdown_unit_ring unit="days" amount={days} />
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <Countdown_unit_ring unit="hours" amount={hours} />
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <Countdown_unit_ring unit="minutes" amount={minutes} />
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <Countdown_unit_ring unit="seconds" amount={seconds} />
+            </EuiFlexItem>
+          </EuiFlexGroup>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    );
   };
 
   return (

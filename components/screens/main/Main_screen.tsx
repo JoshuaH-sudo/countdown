@@ -12,12 +12,25 @@ interface Main_screen_props
 const Main_screen: FC<Main_screen_props> = ({ navigation }) => {
   return (
     <EuiPageTemplate panelled={true} restrictWidth={true} grow={true}>
-      <EuiPageTemplate.Section grow={false} color="subdued">
-        <EuiPageTemplate.Section grow={false} color="subdued">
+      <EuiPageTemplate.Section
+        paddingSize="s"
+        restrictWidth={true}
+        grow={false}
+        color="subdued"
+      >
+        <EuiPageTemplate.Section
+          paddingSize="none"
+          grow={false}
+          color="subdued"
+        >
           <Header_actions navigation={navigation} />
         </EuiPageTemplate.Section>
 
-        <EuiPageTemplate.Section grow={true} color="subdued">
+        <EuiPageTemplate.Section
+          paddingSize="none"
+          grow={true}
+          color="subdued"
+        >
           <Countdown_list />
         </EuiPageTemplate.Section>
       </EuiPageTemplate.Section>

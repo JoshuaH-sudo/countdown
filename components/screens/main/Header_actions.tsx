@@ -16,7 +16,7 @@ const Header_actions: FC<Header_actions_props> = ({ navigation }) => {
   };
 
   return (
-    <EuiFlexGroup justifyContent="spaceBetween" alignItems="center">
+    <EuiFlexGroup justifyContent="spaceBetween" alignItems="center" responsive={false}>
       <EuiFlexItem grow={false}>
         <EuiButtonIcon
           id="add_goal_button"
