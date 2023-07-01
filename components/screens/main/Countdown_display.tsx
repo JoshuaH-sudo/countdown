@@ -2,10 +2,10 @@ import React from "react";
 import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
-import { EuiFlexGroup, EuiFlexItem, EuiText } from "@elastic/eui";
+import { EuiFlexGroup, EuiFlexItem, EuiText, EuiTitle } from "@elastic/eui";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { Serialized_countdown_goal } from "./common";
+import { Serialized_countdown_goal } from "../../common";
 
 interface Countdown_props {
   goal: Serialized_countdown_goal;
@@ -28,17 +28,17 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
   }, [end_date]);
 
   interface Countdown_unit_ring_props {
-    time_unit: "days" | "hours" | "minutes" | "seconds";
+    unit: "days" | "hours" | "minutes" | "seconds";
     amount: number;
   }
 
   const Countdown_unit_ring: FC<Countdown_unit_ring_props> = ({
-    time_unit,
+    unit,
     amount = 0,
   }) => {
     // Mapping the date values to radius values
     let max_amount: number;
-    switch (time_unit) {
+    switch (unit) {
       case "days":
         /*
          * This is the max time unit which all other units divide from.
@@ -77,8 +77,10 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
             value={amount}
             strokeWidth={10}
           >
-            <EuiText>{amount}</EuiText>
-            <EuiText>{time_unit}</EuiText>
+            <EuiTitle size="m">
+              <EuiText>{amount}</EuiText>
+            </EuiTitle>
+            <EuiText size="s">{unit}</EuiText>
           </CircularProgressbarWithChildren>
         </EuiFlexItem>
       </EuiFlexGroup>
@@ -105,22 +107,22 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
         <EuiFlexGroup alignItems="center" justifyContent="center" wrap>
           {
             <EuiFlexItem grow={false}>
-              <Countdown_unit_ring time_unit="days" amount={days} />
+              <Countdown_unit_ring unit="days" amount={days} />
             </EuiFlexItem>
           }
           {
             <EuiFlexItem grow={false}>
-              <Countdown_unit_ring time_unit="hours" amount={hours} />
+              <Countdown_unit_ring unit="hours" amount={hours} />
             </EuiFlexItem>
           }
           {
             <EuiFlexItem grow={false}>
-              <Countdown_unit_ring time_unit="minutes" amount={minutes} />
+              <Countdown_unit_ring unit="minutes" amount={minutes} />
             </EuiFlexItem>
           }
           {
             <EuiFlexItem grow={false}>
-              <Countdown_unit_ring time_unit="seconds" amount={seconds} />
+              <Countdown_unit_ring unit="seconds" amount={seconds} />
             </EuiFlexItem>
           }
         </EuiFlexGroup>
