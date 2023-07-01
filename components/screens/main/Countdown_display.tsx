@@ -62,28 +62,25 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
     }
 
     return (
-      <EuiFlexGroup
-        direction="column"
+      <div
         style={{
           position: "relative",
           width: "100px",
           height: "100px",
         }}
       >
-        <EuiFlexItem grow={false}>
-          <CircularProgressbarWithChildren
-            minValue={0}
-            maxValue={max_amount}
-            value={amount}
-            strokeWidth={10}
-          >
-            <EuiTitle size="m">
-              <EuiText>{amount}</EuiText>
-            </EuiTitle>
-            <EuiText size="s">{unit}</EuiText>
-          </CircularProgressbarWithChildren>
-        </EuiFlexItem>
-      </EuiFlexGroup>
+        <CircularProgressbarWithChildren
+          minValue={0}
+          maxValue={max_amount}
+          value={amount}
+          strokeWidth={10}
+        >
+          <EuiTitle size="m">
+            <EuiText>{amount}</EuiText>
+          </EuiTitle>
+          <EuiText size="s">{unit}</EuiText>
+        </CircularProgressbarWithChildren>
+      </div>
     );
   };
 
@@ -98,33 +95,34 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
   }) => {
     if (completed) {
       // Render a completed state
-      return <span>{name} Completed</span>;
+      return (
+        <EuiFlexGroup alignItems="center" justifyContent="flexStart" wrap>
+          <EuiFlexItem grow={true}>{`${name} Completed`}</EuiFlexItem>
+        </EuiFlexGroup>
+      );
     } else {
       if (api.isStopped()) api.start();
 
       // Render the countdown
       return (
-        <EuiFlexGroup alignItems="center" justifyContent="center" wrap>
-          {
-            <EuiFlexItem grow={false}>
-              <Countdown_unit_ring unit="days" amount={days} />
-            </EuiFlexItem>
-          }
-          {
-            <EuiFlexItem grow={false}>
-              <Countdown_unit_ring unit="hours" amount={hours} />
-            </EuiFlexItem>
-          }
-          {
-            <EuiFlexItem grow={false}>
-              <Countdown_unit_ring unit="minutes" amount={minutes} />
-            </EuiFlexItem>
-          }
-          {
-            <EuiFlexItem grow={false}>
-              <Countdown_unit_ring unit="seconds" amount={seconds} />
-            </EuiFlexItem>
-          }
+        <EuiFlexGroup alignItems="center" justifyContent="flexStart" wrap>
+          <EuiFlexItem grow={false}>
+            <EuiTitle size="s">
+              <EuiText>{name}</EuiText>
+            </EuiTitle>
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <Countdown_unit_ring unit="days" amount={days} />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <Countdown_unit_ring unit="hours" amount={hours} />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <Countdown_unit_ring unit="minutes" amount={minutes} />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            <Countdown_unit_ring unit="seconds" amount={seconds} />
+          </EuiFlexItem>
         </EuiFlexGroup>
       );
     }

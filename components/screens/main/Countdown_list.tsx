@@ -46,7 +46,7 @@ const Countdown_list: FC = () => {
       >
         {(provided) => (
           <EuiPanel>
-            <EuiFlexGroup>
+            <EuiFlexGroup alignItems="center">
               <EuiFlexItem grow={false}>
                 <EuiPanel
                   color="transparent"
