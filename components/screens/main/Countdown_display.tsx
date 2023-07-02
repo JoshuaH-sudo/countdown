@@ -3,23 +3,33 @@ import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import {
+  DraggableProvidedDragHandleProps,
   EuiButtonIcon,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiIcon,
+  EuiPanel,
   EuiText,
   EuiTitle,
 } from "@elastic/eui";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Serialized_countdown_goal } from "../../common";
+import use_database_store from "../../store/database/use_database_store";
 
 interface Countdown_props {
   goal: Serialized_countdown_goal;
+  dnd_provided: DraggableProvidedDragHandleProps | null | undefined;
 }
 
-const Countdown_display: FC<Countdown_props> = ({ goal }) => {
+const Countdown_display: FC<Countdown_props> = ({ goal, dnd_provided }) => {
   const [timer, set_timer] = useState(0);
-  const { name, start_date, end_date } = goal;
+  const { id, name, start_date, end_date } = goal;
+  const { remove_goal } = use_database_store();
+
+  const delete_goal = () => {
+    remove_goal(id);
+  };
 
   const set_date_timer = () => {
     // The countdown start point needs to be relative to the current date difference.
@@ -68,24 +78,26 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
     }
 
     return (
-      <div
-        style={{
-          width: "4em",
-          height: "4em",
-        }}
-      >
-        <CircularProgressbarWithChildren
-          minValue={0}
-          maxValue={max_amount}
-          value={amount}
-          strokeWidth={10}
+      <EuiFlexItem grow={false}>
+        <div
+          style={{
+            width: "70px",
+            height: "70px",
+          }}
         >
-          <EuiTitle size="m">
-            <EuiText>{amount}</EuiText>
-          </EuiTitle>
-          <EuiText size="s">{unit}</EuiText>
-        </CircularProgressbarWithChildren>
-      </div>
+          <CircularProgressbarWithChildren
+            minValue={0}
+            maxValue={max_amount}
+            value={amount}
+            strokeWidth={10}
+          >
+            <EuiTitle size="s">
+              <EuiText>{amount}</EuiText>
+            </EuiTitle>
+            <EuiText size="xs">{unit}</EuiText>
+          </CircularProgressbarWithChildren>
+        </div>
+      </EuiFlexItem>
     );
   };
 
@@ -107,29 +119,39 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
         alignItems="center"
         justifyContent="flexStart"
         direction="column"
+        gutterSize="xs"
       >
-        <EuiFlexItem grow={false}>
-          <EuiFlexGroup justifyContent="center" alignItems="center" responsive={false}>
+        <EuiFlexItem style={{ width: "100%" }} grow={false}>
+          <EuiFlexGroup
+            justifyContent="spaceEvenly"
+            alignItems="center"
+            responsive={false}
+          >
+            <EuiFlexItem grow={false}>
+              <EuiPanel
+                color="transparent"
+                paddingSize="s"
+                {...dnd_provided}
+                aria-label="Drag Handle"
+              >
+                <EuiIcon type="grab" />
+              </EuiPanel>
+            </EuiFlexItem>
+
             <EuiFlexItem>
               <EuiTitle size="s">
-                <EuiText>{display_name}</EuiText>
+                <EuiText style={{ alignSelf: "center" }}>
+                  {display_name}
+                </EuiText>
               </EuiTitle>
             </EuiFlexItem>
 
-            <EuiFlexItem grow={false}>
-              <EuiFlexGroup
-                alignItems="center"
-                direction="column"
-                justifyContent="flexStart"
-              >
-                <EuiFlexItem grow={false}>
-                  <EuiButtonIcon
-                    iconType="cross"
-                    display="fill"
-                    // onClick={() => delete_goal(id)}
-                  />
-                </EuiFlexItem>
-              </EuiFlexGroup>
+            <EuiFlexItem grow={false} style={{ alignSelf: "baseline" }}>
+              <EuiButtonIcon
+                iconType="cross"
+                display="fill"
+                onClick={delete_goal}
+              />
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiFlexItem>
@@ -137,21 +159,15 @@ const Countdown_display: FC<Countdown_props> = ({ goal }) => {
         <EuiFlexItem grow={true}>
           <EuiFlexGroup
             alignItems="center"
-            justifyContent="flexStart"
+            justifyContent="center"
             responsive={false}
+            gutterSize="m"
+            wrap
           >
-            <EuiFlexItem grow={false}>
-              <Countdown_unit_ring unit="days" amount={days} />
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <Countdown_unit_ring unit="hours" amount={hours} />
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <Countdown_unit_ring unit="minutes" amount={minutes} />
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <Countdown_unit_ring unit="seconds" amount={seconds} />
-            </EuiFlexItem>
+            <Countdown_unit_ring unit="days" amount={days} />
+            <Countdown_unit_ring unit="hours" amount={hours} />
+            <Countdown_unit_ring unit="minutes" amount={minutes} />
+            <Countdown_unit_ring unit="seconds" amount={seconds} />
           </EuiFlexGroup>
         </EuiFlexItem>
       </EuiFlexGroup>

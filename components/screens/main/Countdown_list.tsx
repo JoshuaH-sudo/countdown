@@ -1,15 +1,10 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import use_database_store from "../../store/database/use_database_store";
 import {
   DropResult,
-  EuiButton,
-  EuiButtonIcon,
   EuiDragDropContext,
   EuiDraggable,
   EuiDroppable,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiIcon,
   EuiPanel,
   ResponderProvided,
   euiDragDropReorder,
@@ -34,10 +29,6 @@ const Countdown_list: FC = () => {
     }
   };
 
-  const delete_goal = (id: string) => {
-    remove_goal(id);
-  };
-
   const drag_items = countdown_goals.map((countdown_goal, index) => {
     const { id } = countdown_goal;
     return (
@@ -50,23 +41,11 @@ const Countdown_list: FC = () => {
         hasInteractiveChildren={true}
       >
         {(provided) => (
-          <EuiPanel>
-            <EuiFlexGroup responsive={false}>
-              {/* <EuiFlexItem grow={false} style={{ alignSelf: "center" }}>
-                <EuiPanel
-                  color="transparent"
-                  paddingSize="s"
-                  {...provided.dragHandleProps}
-                  aria-label="Drag Handle"
-                >
-                  <EuiIcon type="grab" />
-                </EuiPanel>
-              </EuiFlexItem> */}
-
-              <EuiFlexItem>
-                <Countdown_display goal={countdown_goal} />
-              </EuiFlexItem>
-            </EuiFlexGroup>
+          <EuiPanel paddingSize="xs">
+            <Countdown_display
+              goal={countdown_goal}
+              dnd_provided={provided.dragHandleProps}
+            />
           </EuiPanel>
         )}
       </EuiDraggable>
@@ -75,11 +54,7 @@ const Countdown_list: FC = () => {
 
   return (
     <EuiDragDropContext onDragEnd={onDragEnd}>
-      <EuiDroppable
-        droppableId="CUSTOM_HANDLE_DROPPABLE_AREA"
-        spacing="m"
-        withPanel
-      >
+      <EuiDroppable droppableId="CUSTOM_HANDLE_DROPPABLE_AREA" spacing="s">
         {drag_items}
       </EuiDroppable>
     </EuiDragDropContext>
