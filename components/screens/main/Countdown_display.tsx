@@ -81,13 +81,14 @@ const Countdown_display: FC<Countdown_props> = ({ goal, dnd_provided }) => {
       <EuiFlexItem grow={false}>
         <div
           style={{
-            width: "70px",
-            height: "70px",
+            width: "75px",
+            height: "75px",
           }}
         >
           <CircularProgressbarWithChildren
             minValue={0}
-            maxValue={max_amount}
+            //Will make the progress bar for each unit appear full when the count has finished completely.
+            maxValue={amount === 0 ? 0 : max_amount}
             value={amount}
             strokeWidth={10}
           >
@@ -139,11 +140,25 @@ const Countdown_display: FC<Countdown_props> = ({ goal, dnd_provided }) => {
             </EuiFlexItem>
 
             <EuiFlexItem>
-              <EuiTitle size="s">
-                <EuiText style={{ alignSelf: "center" }}>
-                  {display_name}
-                </EuiText>
-              </EuiTitle>
+              <EuiFlexGroup
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                gutterSize="xs"
+                responsive={false}
+              >
+                <EuiFlexItem grow={false}>
+                  <EuiTitle size="s">
+                    <EuiText grow={false} textAlign="center">
+                      {display_name}
+                    </EuiText>
+                  </EuiTitle>
+                </EuiFlexItem>
+
+                <EuiFlexItem grow={false}>
+                  <EuiButtonIcon iconType="pencil" />
+                </EuiFlexItem>
+              </EuiFlexGroup>
             </EuiFlexItem>
 
             <EuiFlexItem grow={false} style={{ alignSelf: "baseline" }}>

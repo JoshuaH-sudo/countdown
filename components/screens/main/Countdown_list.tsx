@@ -12,7 +12,7 @@ import {
 import Countdown_display from "./Countdown_display";
 
 const Countdown_list: FC = () => {
-  const { database, set_goals, remove_goal } = use_database_store();
+  const { database, set_goals } = use_database_store();
   const { countdown_goals } = database;
 
   const onDragEnd: (
@@ -39,6 +39,7 @@ const Countdown_list: FC = () => {
         draggableId={id}
         customDragHandle={true}
         hasInteractiveChildren={true}
+        style={{ paddingLeft: 0, paddingRight: 0 }}
       >
         {(provided) => (
           <EuiPanel paddingSize="xs">
@@ -54,7 +55,11 @@ const Countdown_list: FC = () => {
 
   return (
     <EuiDragDropContext onDragEnd={onDragEnd}>
-      <EuiDroppable droppableId="CUSTOM_HANDLE_DROPPABLE_AREA" spacing="s">
+      <EuiDroppable
+        droppableId="CUSTOM_HANDLE_DROPPABLE_AREA"
+        spacing="none"
+        grow={true}
+      >
         {drag_items}
       </EuiDroppable>
     </EuiDragDropContext>

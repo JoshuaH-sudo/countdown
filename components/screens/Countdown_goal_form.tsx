@@ -56,7 +56,7 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
           </EuiFormRow>
 
           <EuiFormRow>
-            <EuiButton onClick={on_submit_handler}>Save</EuiButton>
+            <EuiButton onClick={on_submit_handler}>Add</EuiButton>
           </EuiFormRow>
         </EuiForm>
       </EuiPageTemplate.Section>
