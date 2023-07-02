@@ -2,6 +2,7 @@ import { New_countdown_goal, Serialized_countdown_goal } from "../../common";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import {
   add_countdown_goal,
+  edit_countdown_goal,
   remove_countdown_goal,
   set_countdown_goals,
 } from "./database_actions";
@@ -22,11 +23,16 @@ const use_database_store = () => {
     dispatch(set_countdown_goals(goals));
   };
 
+  const edit_goal = (goal: Serialized_countdown_goal) => {
+    dispatch(edit_countdown_goal(goal));
+  };
+
   return {
     database,
     add_goal,
     remove_goal,
-    set_goals
+    edit_goal,
+    set_goals,
   };
 };
 

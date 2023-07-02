@@ -71,3 +71,22 @@ export const set_countdown_goals = createAsyncThunk(
     await dispatch(set_store_countdown_goals());
   }
 );
+
+export const edit_countdown_goal = createAsyncThunk(
+  "database/edit_countdown_goal",
+  async (edit_goal: Serialized_countdown_goal, { dispatch }) => {
+    //Extract and parse the local storage
+    const goal_storage = await AsyncStorage.getItem(storage_name);
+    if (!goal_storage) throw "Storage returned empty";
+    const goals = JSON.parse(goal_storage) as Serialized_countdown_goal[];
+
+    //Find the index of the goal
+    const index = goals.findIndex((goal) => goal.id === edit_goal.id);
+    if (index === -1) throw "Goal to update not found"
+    goals[index] = { ...edit_goal };
+
+    //Update the storage
+    await AsyncStorage.setItem(storage_name, JSON.stringify(goals));
+    await dispatch(set_store_countdown_goals());
+  }
+);

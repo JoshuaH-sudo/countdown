@@ -6,12 +6,15 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
+import { Serialized_countdown_goal } from "./components/common";
 
 export const storage_name = "countdown-goals";
 
 export type root_stack_param_list = {
   Main_screen: undefined;
-  Goal_form: undefined;
+  Goal_form: {
+    edit_item?: Serialized_countdown_goal
+  };
 };
 
 export type screen_props<T extends keyof root_stack_param_list> = {

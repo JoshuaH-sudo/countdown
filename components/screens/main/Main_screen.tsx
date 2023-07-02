@@ -30,7 +30,7 @@ const Main_screen: FC<Main_screen_props> = ({ navigation }) => {
 
       <EuiPageSection
         paddingSize="none"
-        grow={false}
+        grow={true}
         color="transparent"
         style={{ overflow: "scroll" }}
       >

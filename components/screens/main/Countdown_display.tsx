@@ -16,6 +16,8 @@ import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Serialized_countdown_goal } from "../../common";
 import use_database_store from "../../store/database/use_database_store";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { root_stack_param_list } from "../../../App";
 
 interface Countdown_props {
   goal: Serialized_countdown_goal;
@@ -156,7 +158,14 @@ const Countdown_display: FC<Countdown_props> = ({ goal, dnd_provided }) => {
                 </EuiFlexItem>
 
                 <EuiFlexItem grow={false}>
-                  <EuiButtonIcon iconType="pencil" />
+                  <EuiButtonIcon
+                    iconType="pencil"
+                    onClick={() => {
+                      // navigation.navigate("Goal_form", {
+                      //   edit_item: goal,
+                      // })
+                    }}
+                  />
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiFlexItem>

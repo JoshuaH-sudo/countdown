@@ -8,55 +8,102 @@ import {
 } from "@elastic/eui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment from "moment";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { root_stack_param_list } from "../../../App";
 import use_database_store from "../../store/database/use_database_store";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Goal_form, Goal_form_inputs } from "./schema";
+import { joiResolver } from "@hookform/resolvers/joi";
 
-export type Countdown_goal_form_props = NativeStackScreenProps<
-  root_stack_param_list,
-  "Goal_form"
->;
+export interface Countdown_goal_form_props
+  extends NativeStackScreenProps<root_stack_param_list, "Goal_form"> {}
 
-const Countdown_goal_form: FC<Countdown_goal_form_props> = ({ navigation }) => {
-  const { add_goal } = use_database_store();
-  const [end_date, set_end_date] = useState<moment.Moment>(moment());
-  const [name, set_name] = useState("");
+const Countdown_goal_form: FC<Countdown_goal_form_props> = ({
+  route,
+  navigation,
+}) => {
+  const { edit_item } = route.params;
+  const default_values = edit_item
+    ? {
+        name: edit_item.name,
+        end_date: moment(edit_item.end_date),
+      }
+    : {
+        name: "",
+        end_date: moment(),
+      };
 
-  const change_date_handler = (date: moment.Moment) => {
-    set_end_date(date.clone());
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<Goal_form_inputs>({
+    resolver: joiResolver(Goal_form),
+    defaultValues: default_values,
+  });
 
-  const change_name_handler = (event: any) => {
-    set_name(event.target.value);
-  };
+  const { add_goal, edit_goal } = use_database_store();
 
-  const on_submit_handler = () => {
-    add_goal({
-      name,
-      end_date,
-      start_date: moment(),
-    });
+  const on_submit_handler: SubmitHandler<Goal_form_inputs> = (form_inputs) => {
+    if (edit_item) {
+      edit_goal({
+        id: edit_item.id,
+        start_date: edit_item.start_date,
+        name: form_inputs.name,
+        end_date: form_inputs.end_date.toString(),
+      });
+    } else {
+      add_goal({
+        ...form_inputs,
+        start_date: moment(),
+      });
+    }
     navigation.navigate("Main_screen");
   };
+
+  console.debug(errors);
 
   return (
     <EuiPageTemplate panelled={true} restrictWidth={true} grow={true}>
       <EuiPageTemplate.Section grow={false} color="subdued">
-        <EuiForm>
-          <EuiFormRow label="Name">
-            <EuiFieldText value={name} onChange={change_name_handler} />
+        <EuiForm component="form" onSubmit={handleSubmit(on_submit_handler)}>
+          <EuiFormRow
+            label="Name"
+            isInvalid={!!errors.name}
+            error={errors.name?.message}
+          >
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => <EuiFieldText {...field} />}
+            />
           </EuiFormRow>
 
-          <EuiFormRow label="Select a date">
-            <EuiDatePicker
-              showTimeSelect
-              selected={end_date}
-              onChange={change_date_handler}
+          <EuiFormRow label="Select an end date">
+            <Controller
+              name="end_date"
+              control={control}
+              render={({ field }) => (
+                <EuiDatePicker
+                  name={field.name}
+                  onBlur={field.onBlur}
+                  inputRef={field.ref}
+                  showTimeSelect
+                  selected={field.value}
+                  onChange={(date) => {
+                    if (date) {
+                      field.onChange(date);
+                    }
+                  }}
+                />
+              )}
             />
           </EuiFormRow>
 
           <EuiFormRow>
-            <EuiButton onClick={on_submit_handler}>Add</EuiButton>
+            <EuiButton disabled={!isValid} type="submit">
+              Add
+            </EuiButton>
           </EuiFormRow>
         </EuiForm>
       </EuiPageTemplate.Section>
