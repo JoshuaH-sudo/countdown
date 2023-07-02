@@ -16,18 +16,33 @@ interface Main_screen_props
 
 const Main_screen: FC<Main_screen_props> = ({ navigation }) => {
   return (
-    <EuiPageBody paddingSize="s" panelled={true} grow={true}>
+    <EuiPageBody
+      paddingSize="s"
+      panelled={true}
+      grow={true}
+      style={{ maxHeight: "100vh" }}
+    >
       <EuiPageSection paddingSize="none" grow={false} color="transparent">
         <EuiPanel paddingSize="xs">
           <Header_actions navigation={navigation} />
         </EuiPanel>
       </EuiPageSection>
 
-      <EuiPageSection paddingSize="none" grow={true} color="transparent">
+      <EuiPageSection
+        paddingSize="none"
+        grow={false}
+        color="transparent"
+        style={{ overflow: "scroll" }}
+      >
         <Countdown_list />
       </EuiPageSection>
 
-      <EuiPageSection style={{ height: "10vh"}} paddingSize="none" grow={false} color="primary">
+      <EuiPageSection
+        style={{ height: "10vh" }}
+        paddingSize="none"
+        grow={false}
+        color="primary"
+      >
         <EuiText textAlign="center">Ad Space</EuiText>
       </EuiPageSection>
     </EuiPageBody>

@@ -39,7 +39,7 @@ export default function App() {
         <Stack.Screen
           name="Goal_form"
           getComponent={() =>
-            require("./components/screens/Countdown_goal_form").default
+            require("./components/screens/goal_form/Countdown_goal_form").default
           }
         />
       </Stack.Navigator>
