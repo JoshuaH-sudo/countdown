@@ -12,8 +12,8 @@ export const storage_name = "countdown-goals";
 
 export type root_stack_param_list = {
   Main_screen: undefined;
-  Goal_form: {
-    edit_item?: Serialized_countdown_goal
+  Goal_form?: {
+    edit_item: Serialized_countdown_goal
   };
 };
 

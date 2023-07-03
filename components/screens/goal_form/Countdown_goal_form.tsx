@@ -22,7 +22,7 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({
   route,
   navigation,
 }) => {
-  const { edit_item } = route.params;
+  const edit_item = route.params?.edit_item;
   const default_values = edit_item
     ? {
         name: edit_item.name,
@@ -102,7 +102,7 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({
 
           <EuiFormRow>
             <EuiButton disabled={!isValid} type="submit">
-              Add
+              {edit_item ? "Edit" : "Add"}
             </EuiButton>
           </EuiFormRow>
         </EuiForm>
