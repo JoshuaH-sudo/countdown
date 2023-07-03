@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import {
   EuiPageBody,
   EuiPageSection,
-  EuiPageTemplate,
   EuiPanel,
   EuiText,
 } from "@elastic/eui";
@@ -22,17 +21,17 @@ const Main_screen: FC<Main_screen_props> = ({ navigation }) => {
       grow={true}
       style={{ maxHeight: "100vh" }}
     >
-      <EuiPageSection paddingSize="none" grow={false} color="transparent">
-        <EuiPanel paddingSize="xs">
+      <EuiPageSection paddingSize="xs" grow={false} color="transparent">
+        <EuiPanel paddingSize="xs" hasShadow>
           <Header_actions navigation={navigation} />
         </EuiPanel>
       </EuiPageSection>
 
       <EuiPageSection
-        paddingSize="none"
+        paddingSize="xs"
         grow={true}
         color="transparent"
-        style={{ overflow: "scroll" }}
+        style={{ overflowY: "scroll", scrollbarWidth: "thin" }}
       >
         <Countdown_list />
       </EuiPageSection>
