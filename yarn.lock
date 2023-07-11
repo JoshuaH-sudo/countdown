@@ -1199,13 +1199,13 @@
   dependencies:
     tslib "^1.9.3"
 
-"@elastic/eui@^75.0.0":
-  version "75.0.0"
-  resolved "https://registry.npmjs.org/@elastic/eui/-/eui-75.0.0.tgz"
-  integrity sha512-fgjpF4l+YuMVepnYbiddpVZHkzEVrgwvsmJokaf0OZZ34UCh+OB2z4n01yAhmhQXhrFEKv8+LmQt+OMIpTBevA==
+"@elastic/eui@^83.1.0":
+  version "83.1.0"
+  resolved "https://registry.yarnpkg.com/@elastic/eui/-/eui-83.1.0.tgz#ed1e409306da2ed9171d334e0ed7e6622c499141"
+  integrity sha512-l6ERa836K/U9dccZ4xkyf2tmTO54DeElhGXmNdq02CATbXNQ3YGnoAn99+HvA82oXF3zCSpy+pg5tLx6Ag1zaw==
   dependencies:
     "@types/chroma-js" "^2.0.0"
-    "@types/lodash" "^4.14.160"
+    "@types/lodash" "^4.14.194"
     "@types/numeral" "^0.0.28"
     "@types/react-beautiful-dnd" "^13.1.2"
     "@types/react-input-autosize" "^2.2.1"
@@ -1226,6 +1226,7 @@
     react-focus-on "^3.7.0"
     react-input-autosize "^3.0.0"
     react-is "^17.0.2"
+    react-remove-scroll-bar "^2.3.4"
     react-virtualized-auto-sizer "^1.0.6"
     react-window "^1.8.6"
     refractor "^3.5.0"
@@ -2912,10 +2913,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/lodash@^4.14.160":
-  version "4.14.191"
-  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.191.tgz"
-  integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
+"@types/lodash@^4.14.194":
+  version "4.14.195"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.195.tgz#bafc975b252eb6cea78882ce8a7b6bf22a6de632"
+  integrity sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==
 
 "@types/mdast@^3.0.0":
   version "3.0.10"
@@ -10685,7 +10686,7 @@ react-refresh@^0.4.0:
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.4.3.tgz"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
 
-react-remove-scroll-bar@^2.3.3:
+react-remove-scroll-bar@^2.3.3, react-remove-scroll-bar@^2.3.4:
   version "2.3.4"
   resolved "https://registry.npmjs.org/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.4.tgz"
   integrity sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A==
