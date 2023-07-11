@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Countdown",
-    "slug": "Countdown",
+    "slug": "countdown",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,10 +24,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.elqwerto_110100100.countdown"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ca186737-a443-4ceb-b360-1ebb0dff2b7c"
+      }
+    },
+    "owner": "elqwerto_110100100"
   }
 }
