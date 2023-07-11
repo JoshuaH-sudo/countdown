@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "NODE_ENV=development ./scripts/build.sh",
-    "web": "yarn cap serve"
+    "web": "DEBUG=app* ts-node ./bin/www"
   },
   "dependencies": {
     "@capacitor/android": "5.1.1",
@@ -22,10 +22,15 @@
     "@reduxjs/toolkit": "^1.9.3",
     "@types/uuid": "^9.0.1",
     "add": "^2.0.6",
+    "cookie-parser": "^1.4.6",
+    "debug": "^4.3.4",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-snakecasejs": "^2.2.0",
+    "express": "^4.18.2",
+    "express-static-gzip": "^2.1.7",
     "joi": "^17.9.2",
     "moment": "^2.29.4",
+    "morgan": "^1.10.0",
     "prop-types": "^15.8.1",
     "react": "18.1.0",
     "react-circular-progressbar": "^2.1.0",
@@ -33,13 +38,17 @@
     "react-dom": "18.1.0",
     "react-hook-form": "^7.45.1",
     "redux-thunk": "^2.4.2",
+    "ts-node": "^10.9.1",
     "uuid": "^9.0.0",
     "webpack": "^5.88.1",
     "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/debug": "^4.1.8",
     "@types/jest": "^29.4.0",
+    "@types/morgan": "^1.9.4",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
