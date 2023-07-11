@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">countdown</string>
+    <string name="title_activity_main">countdown</string>
+    <string name="package_name">countdown.app</string>
+    <string name="custom_url_scheme">countdown.app</string>
+</resources>
