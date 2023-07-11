@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "NODE_ENV=development ./scripts/build.sh",
+    "build": "NODE_ENV=development ./scripts/build.sh && yarn cap sync",
     "web": "DEBUG=app* ts-node ./bin/www"
   },
   "dependencies": {
