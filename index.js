@@ -7,7 +7,6 @@ import { EuiProvider } from "@elastic/eui";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import 'expo-dev-client';
 
 //Need to use google's CDN to import google fonts as react native does not work with css files.
 const Root_app = () => {
