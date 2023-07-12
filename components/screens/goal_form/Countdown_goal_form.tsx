@@ -1,10 +1,9 @@
 import {
   EuiForm,
   EuiFormRow,
-  EuiDatePicker,
   EuiButton,
-  EuiFieldText,
   EuiPageTemplate,
+  EuiHorizontalRule,
 } from "@elastic/eui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment from "moment";
@@ -14,8 +13,8 @@ import use_database_store from "../../store/database/use_database_store";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Goal_form, Goal_form_inputs } from "./schema";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { StaticDateTimePicker } from "@mui/x-date-pickers";
+import TextField from "@mui/material/TextField";
 
 export interface Countdown_goal_form_props
   extends NativeStackScreenProps<root_stack_param_list, "Goal_form"> {}
@@ -69,30 +68,37 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({
     <EuiPageTemplate panelled={true} restrictWidth={true} grow={true}>
       <EuiPageTemplate.Section grow={false} color="subdued">
         <EuiForm component="form" onSubmit={handleSubmit(on_submit_handler)}>
-          <EuiFormRow
-            label="Name"
-            isInvalid={!!errors.name}
-            error={errors.name?.message}
-          >
+          <EuiFormRow isInvalid={!!errors.name} error={errors.name?.message}>
             <Controller
               name="name"
               control={control}
-              render={({ field }) => <EuiFieldText {...field} />}
+              render={({ field }) => (
+                <TextField
+                  label="Name"
+                  required={true}
+                  variant="standard"
+                  {...field}
+                />
+              )}
             />
           </EuiFormRow>
 
-          <EuiFormRow label="Select an end date">
+          <EuiHorizontalRule />
+
+          <EuiFormRow>
             <Controller
               name="end_date"
               control={control}
               render={({ field }) => (
                 <StaticDateTimePicker
-                  defaultValue={moment()}
                   value={field.value}
                   onChange={(date) => {
                     if (date) {
                       field.onChange(date);
                     }
+                  }}
+                  slots={{
+                    actionBar: () => <></>,
                   }}
                 />
               )}
