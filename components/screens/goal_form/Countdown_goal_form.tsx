@@ -14,6 +14,8 @@ import use_database_store from "../../store/database/use_database_store";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Goal_form, Goal_form_inputs } from "./schema";
 import { joiResolver } from "@hookform/resolvers/joi";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { StaticDateTimePicker } from "@mui/x-date-pickers";
 
 export interface Countdown_goal_form_props
   extends NativeStackScreenProps<root_stack_param_list, "Goal_form"> {}
@@ -84,12 +86,9 @@ const Countdown_goal_form: FC<Countdown_goal_form_props> = ({
               name="end_date"
               control={control}
               render={({ field }) => (
-                <EuiDatePicker
-                  name={field.name}
-                  onBlur={field.onBlur}
-                  inputRef={field.ref}
-                  showTimeSelect
-                  selected={field.value}
+                <StaticDateTimePicker
+                  defaultValue={moment()}
+                  value={field.value}
                   onChange={(date) => {
                     if (date) {
                       field.onChange(date);

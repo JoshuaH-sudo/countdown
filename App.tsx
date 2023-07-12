@@ -1,5 +1,5 @@
 import React from "react";
-import "@elastic/eui/dist/eui_theme_dark.css";
+// import "@elastic/eui/dist/eui_theme_dark.css";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
